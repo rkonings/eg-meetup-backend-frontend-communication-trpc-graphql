@@ -1,2 +1,10 @@
-# eg-meetup-backend-frontend-communication-trpc-graphql
-Meetup about backend frontend communication REST API alternatives tRPC and GraphQL
+#A minimal working tRPC example
+
+Requires node 18 (for global fetch).
+
+## Playing around
+
+```
+npm i
+npm run dev
+```
