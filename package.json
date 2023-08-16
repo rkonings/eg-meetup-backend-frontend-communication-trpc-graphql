@@ -7,10 +7,6 @@
     "dev:client": "wait-port 3000 && tsx watch client",
     "dev": "run-p dev:* --print-label"
   },
-  "workspaces": [
-    "client",
-    "server"
-  ],
   "devDependencies": {
     "@types/node": "^18.16.16",
     "eslint": "^8.40.0",
