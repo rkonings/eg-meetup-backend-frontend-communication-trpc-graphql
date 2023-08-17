@@ -18,13 +18,13 @@ function getFormData(event: FormEvent<HTMLFormElement>) {
 
 export function ExampleMutation() {
   const utils = trpc.useContext();
-  const { mutate, data } = trpc.addUser.useMutation({
+  const { mutate, data, error } = trpc.addUser.useMutation({
     onSuccess() {
       utils.getUsers.invalidate();
     },
   });
 
-  function handleSubmit(event: FormEvent<HTMLFormElement>) {
+  async function handleSubmit(event: FormEvent<HTMLFormElement>) {
     event.preventDefault();
     const data = getFormData(event);
 
@@ -39,7 +39,9 @@ export function ExampleMutation() {
     <>
       <form onSubmit={(e) => handleSubmit(e)}>
         <input type="text" placeholder="First name" name="firstName" />
+        {error && error.data?.zodError?.fieldErrors.firstName?.join(",")}
         <input type="text" placeholder="Last name" name="lastName" />
+        {error && error.data?.zodError?.fieldErrors.lastName?.join(",")}
         <button type="submit">Create</button>
       </form>
 

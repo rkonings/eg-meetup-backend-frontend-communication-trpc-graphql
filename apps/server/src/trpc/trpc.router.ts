@@ -58,8 +58,8 @@ export class TrpcRouter {
       )
       .input(
         z.object({
-          firstName: z.string(),
-          lastName: z.string(),
+          firstName: z.string().min(1),
+          lastName: z.string().min(1),
         }),
       )
       .mutation(({ input }) => {
