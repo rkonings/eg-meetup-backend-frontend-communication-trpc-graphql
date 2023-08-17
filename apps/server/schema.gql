@@ -2,9 +2,21 @@
 # THIS FILE WAS AUTOMATICALLY GENERATED (DO NOT MODIFY)
 # ------------------------------------------------------
 
+type Task {
+  id: Int!
+  name: String!
+}
+
+type Project {
+  id: Int!
+  name: String!
+  tasks: [Task!]!
+}
+
 type User {
   firstName: String!
   lastName: String!
+  projects: [Project!]!
 }
 
 type Query {
