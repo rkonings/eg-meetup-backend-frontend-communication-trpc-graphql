@@ -83,7 +83,10 @@ export class UserService {
     return project.tasks.map((id) => tasksCollection.get(id)!);
   }
 
-  addUser({ firstName, lastName }: Pick<UserType, 'firstName' | 'lastName'>) {
+  addUser({
+    firstName,
+    lastName,
+  }: Pick<UserType, 'firstName' | 'lastName'>): UserType {
     const user: UserType = {
       firstName,
       lastName,
@@ -93,6 +96,6 @@ export class UserService {
 
     userCollection.set(user.id, user);
 
-    return this.getAll();
+    return user;
   }
 }

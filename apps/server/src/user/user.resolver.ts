@@ -5,9 +5,14 @@ import {
   Query,
   ResolveField,
   Resolver,
+  Subscription,
 } from '@nestjs/graphql';
+import { PubSub } from 'graphql-subscriptions';
+
 import { Project, User, UserPostData } from './user.model';
 import { ProjectType, UserService, UserType } from './user.service';
+
+const pubSub = new PubSub();
 
 @Resolver(() => User)
 export class UserResolver {
@@ -15,7 +20,9 @@ export class UserResolver {
 
   @Mutation(() => [User])
   addUser(@Args('userPostData') userPostData: UserPostData) {
-    return this.userService.addUser(userPostData);
+    const user = this.userService.addUser(userPostData);
+    pubSub.publish('user', { user });
+    return this.userService.getAll();
   }
 
   @Query(() => [User])
@@ -26,6 +33,11 @@ export class UserResolver {
   @ResolveField(() => [Project])
   projects(@Parent() user: UserType) {
     return this.userService.getProjects(user);
+  }
+
+  @Subscription(() => User)
+  user() {
+    return pubSub.asyncIterator('user');
   }
 }
 

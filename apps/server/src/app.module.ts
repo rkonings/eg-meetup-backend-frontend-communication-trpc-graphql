@@ -8,6 +8,11 @@ import { ApolloDriver, ApolloDriverConfig } from '@nestjs/apollo';
 const GraphqlModule = GraphQLModule.forRoot<ApolloDriverConfig>({
   driver: ApolloDriver,
   autoSchemaFile: 'schema.gql',
+  subscriptions: {
+    'subscriptions-transport-ws': {
+      path: '/graphql',
+    },
+  },
 });
 
 @Module({

@@ -31,3 +31,7 @@ input UserPostData {
   firstName: String!
   lastName: String!
 }
+
+type Subscription {
+  user: User!
+}
