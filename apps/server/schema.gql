@@ -22,3 +22,12 @@ type User {
 type Query {
   users: [User!]!
 }
+
+type Mutation {
+  addUser(userPostData: UserPostData!): [User!]!
+}
+
+input UserPostData {
+  firstName: String!
+  lastName: String!
+}

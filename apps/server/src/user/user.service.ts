@@ -80,7 +80,19 @@ export class UserService {
   }
 
   getTasks(project: ProjectType): TaskType[] {
-    console.log(project);
     return project.tasks.map((id) => tasksCollection.get(id)!);
+  }
+
+  addUser({ firstName, lastName }: Pick<UserType, 'firstName' | 'lastName'>) {
+    const user: UserType = {
+      firstName,
+      lastName,
+      id: Array.from(userCollection.keys()).at(-1)!,
+      projects: [],
+    };
+
+    userCollection.set(user.id, user);
+
+    return this.getAll();
   }
 }

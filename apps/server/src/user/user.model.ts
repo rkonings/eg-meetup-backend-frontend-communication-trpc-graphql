@@ -1,4 +1,4 @@
-import { Field, Int, ObjectType } from '@nestjs/graphql';
+import { Field, InputType, Int, ObjectType } from '@nestjs/graphql';
 
 @ObjectType()
 export class Task {
@@ -31,4 +31,13 @@ export class User {
 
   @Field(() => [Project])
   projects: Project[];
+}
+
+@InputType()
+export class UserPostData {
+  @Field()
+  firstName: string;
+
+  @Field()
+  lastName: string;
 }

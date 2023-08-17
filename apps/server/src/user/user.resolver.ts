@@ -1,10 +1,22 @@
-import { Parent, Query, ResolveField, Resolver } from '@nestjs/graphql';
-import { Project, User } from './user.model';
+import {
+  Args,
+  Mutation,
+  Parent,
+  Query,
+  ResolveField,
+  Resolver,
+} from '@nestjs/graphql';
+import { Project, User, UserPostData } from './user.model';
 import { ProjectType, UserService, UserType } from './user.service';
 
 @Resolver(() => User)
 export class UserResolver {
   constructor(private userService: UserService) {}
+
+  @Mutation(() => [User])
+  addUser(@Args('userPostData') userPostData: UserPostData) {
+    return this.userService.addUser(userPostData);
+  }
 
   @Query(() => [User])
   async users() {
