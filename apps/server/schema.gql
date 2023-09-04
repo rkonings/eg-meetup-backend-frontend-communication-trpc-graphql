@@ -2,34 +2,45 @@
 # THIS FILE WAS AUTOMATICALLY GENERATED (DO NOT MODIFY)
 # ------------------------------------------------------
 
+type User {
+  id: Int!
+  firstName: String!
+  lastName: String!
+  projects: [Project!]!
+}
+
 type Task {
   id: Int!
   name: String!
+  project: Project!
 }
 
 type Project {
   id: Int!
   name: String!
   tasks: [Task!]!
-}
-
-type User {
-  firstName: String!
-  lastName: String!
-  projects: [Project!]!
+  users: [User!]!
 }
 
 type Query {
   users: [User!]!
+  projects: [Project!]!
 }
 
 type Mutation {
-  addUser(userPostData: UserPostData!): [User!]!
+  addUser(userPostData: UserPostData!): User!
+  addProject(projectPostData: ProjectPostData!): Project!
 }
 
 input UserPostData {
   firstName: String!
   lastName: String!
+}
+
+input ProjectPostData {
+  name: String!
+  tasks: [Int!] = []
+  users: [Int!] = []
 }
 
 type Subscription {

@@ -9,20 +9,25 @@ import {
 } from '@nestjs/graphql';
 import { PubSub } from 'graphql-subscriptions';
 
-import { Project, User, UserPostData } from './user.model';
-import { ProjectType, UserService, UserType } from './user.service';
+import { User, UserPostData } from './user.model';
+import { UserService, UserType } from './user.service';
+import { Project } from 'src/user/project/project.model';
+import { ProjectService } from 'src/user/project/project.service';
 
 const pubSub = new PubSub();
 
 @Resolver(() => User)
 export class UserResolver {
-  constructor(private userService: UserService) {}
+  constructor(
+    private userService: UserService,
+    private projectService: ProjectService,
+  ) {}
 
-  @Mutation(() => [User])
+  @Mutation(() => User)
   addUser(@Args('userPostData') userPostData: UserPostData) {
     const user = this.userService.addUser(userPostData);
     pubSub.publish('user', { user });
-    return this.userService.getAll();
+    return user;
   }
 
   @Query(() => [User])
@@ -32,21 +37,11 @@ export class UserResolver {
 
   @ResolveField(() => [Project])
   projects(@Parent() user: UserType) {
-    return this.userService.getProjects(user);
+    return this.projectService.getProjects(user);
   }
 
   @Subscription(() => User)
   user() {
     return pubSub.asyncIterator('user');
-  }
-}
-
-@Resolver(() => Project)
-export class ProjectResolver {
-  constructor(private userService: UserService) {}
-
-  @ResolveField(() => [Project])
-  tasks(@Parent() project: ProjectType) {
-    return this.userService.getTasks(project);
   }
 }

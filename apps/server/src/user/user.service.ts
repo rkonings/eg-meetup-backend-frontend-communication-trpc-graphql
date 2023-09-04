@@ -1,47 +1,6 @@
 import { Injectable } from '@nestjs/common';
+import { ProjectType } from 'src/user/project/project.service';
 import { z } from 'zod';
-
-const TaskSchema = z.object({
-  id: z.number(),
-  name: z.string(),
-});
-
-type TaskType = z.infer<typeof TaskSchema>;
-
-type TaskCollection = Map<TaskType['id'], TaskType>;
-
-const tasksCollection: TaskCollection = new Map();
-tasksCollection.set(0, {
-  id: 0,
-  name: 'Install GraphQL',
-});
-
-tasksCollection.set(1, {
-  id: 1,
-  name: 'Run GraphQL',
-});
-
-tasksCollection.set(2, {
-  id: 2,
-  name: 'Query Data',
-});
-
-const ProjectSchema = z.object({
-  id: z.number(),
-  name: z.string(),
-  tasks: z.number().array(),
-});
-
-export type ProjectType = z.infer<typeof ProjectSchema>;
-
-type ProjectCollection = Map<ProjectType['id'], ProjectType>;
-
-const projectCollection: ProjectCollection = new Map();
-projectCollection.set(0, {
-  id: 0,
-  name: 'Setup GraphQL',
-  tasks: [0, 1, 2],
-});
 
 const UserSchema = z.object({
   id: z.number(),
@@ -52,11 +11,18 @@ const UserSchema = z.object({
 export type UserType = z.infer<typeof UserSchema>;
 type UserCollection = Map<UserType['id'], UserType>;
 
-const userCollection: UserCollection = new Map();
+export const userCollection: UserCollection = new Map();
 userCollection.set(0, {
   firstName: 'Lourens',
   lastName: 'Kaufmann',
   id: 0,
+  projects: [0],
+});
+
+userCollection.set(1, {
+  firstName: 'Niels',
+  lastName: 'de Bruin',
+  id: 1,
   projects: [0],
 });
 
@@ -75,12 +41,8 @@ export class UserService {
     return Array.from(userCollection.values());
   }
 
-  getProjects(user: UserType): ProjectType[] {
-    return user.projects.map((projectId) => projectCollection.get(projectId)!);
-  }
-
-  getTasks(project: ProjectType): TaskType[] {
-    return project.tasks.map((id) => tasksCollection.get(id)!);
+  getUsers(project: ProjectType): UserType[] {
+    return project.users.map((id) => userCollection.get(id)!);
   }
 
   addUser({
@@ -90,7 +52,7 @@ export class UserService {
     const user: UserType = {
       firstName,
       lastName,
-      id: Array.from(userCollection.keys()).at(-1)!,
+      id: Array.from(userCollection.values()).length,
       projects: [],
     };
 
