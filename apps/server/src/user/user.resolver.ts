@@ -35,7 +35,7 @@ export class UserResolver {
     return this.userService.getAll();
   }
 
-  @Query(() => User)
+  @Query(() => User, { nullable: true })
   user(@Args('userId') userId: number) {
     return this.userService.getById(userId);
   }
