@@ -24,6 +24,7 @@ type Project {
 
 type Query {
   users: [User!]!
+  user(userId: Float!): User!
   projects: [Project!]!
 }
 
@@ -44,5 +45,5 @@ input ProjectPostData {
 }
 
 type Subscription {
-  user: User!
+  userAdded: User!
 }

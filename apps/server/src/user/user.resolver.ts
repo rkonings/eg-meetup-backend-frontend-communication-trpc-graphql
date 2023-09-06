@@ -31,8 +31,13 @@ export class UserResolver {
   }
 
   @Query(() => [User])
-  async users() {
+  users() {
     return this.userService.getAll();
+  }
+
+  @Query(() => User)
+  user(@Args('userId') userId: number) {
+    return this.userService.getById(userId);
   }
 
   @ResolveField(() => [Project])
@@ -41,7 +46,7 @@ export class UserResolver {
   }
 
   @Subscription(() => User)
-  user() {
+  userAdded() {
     return pubSub.asyncIterator('user');
   }
 }

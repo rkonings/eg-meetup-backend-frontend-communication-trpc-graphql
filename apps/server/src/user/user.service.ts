@@ -28,6 +28,10 @@ userCollection.set(1, {
 
 @Injectable()
 export class UserService {
+  getById(id: number): UserType | undefined {
+    return userCollection.get(id);
+  }
+
   getByFirstName(firstName: string): UserType | undefined {
     userCollection.forEach((user) => {
       if (user.firstName === firstName) {
