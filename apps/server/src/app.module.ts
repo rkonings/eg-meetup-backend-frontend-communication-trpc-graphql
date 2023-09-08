@@ -4,6 +4,7 @@ import { AppService } from './app.service';
 import { UserModule } from './user/user.module';
 import { GraphQLModule } from '@nestjs/graphql';
 import { ApolloDriver, ApolloDriverConfig } from '@nestjs/apollo';
+import { ComplexityPlugin } from './plugins/complexity.plugin';
 
 const GraphqlModule = GraphQLModule.forRoot<ApolloDriverConfig>({
   driver: ApolloDriver,
@@ -18,6 +19,6 @@ const GraphqlModule = GraphQLModule.forRoot<ApolloDriverConfig>({
 @Module({
   imports: [UserModule, GraphqlModule],
   controllers: [AppController],
-  providers: [AppService],
+  providers: [AppService, ComplexityPlugin],
 })
 export class AppModule {}
