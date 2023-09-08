@@ -25,9 +25,9 @@ export class UserResolver {
 
   @Mutation(() => User)
   addUser(@Args('userPostData') userPostData: UserPostData) {
-    const user = this.userService.addUser(userPostData);
-    pubSub.publish('user', { user });
-    return user;
+    const userAdded = this.userService.addUser(userPostData);
+    pubSub.publish('userAdded', { userAdded });
+    return userAdded;
   }
 
   @Query(() => [User])
@@ -47,6 +47,6 @@ export class UserResolver {
 
   @Subscription(() => User)
   userAdded() {
-    return pubSub.asyncIterator('user');
+    return pubSub.asyncIterator('userAdded');
   }
 }
