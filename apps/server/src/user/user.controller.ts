@@ -1,21 +1,9 @@
-import {
-  Body,
-  Controller,
-  Get,
-  NotFoundException,
-  Param,
-  Post,
-} from '@nestjs/common';
+import { Controller, Get, NotFoundException, Param } from '@nestjs/common';
 import { UserService, UserType } from './user.service';
-import { ProjectService, ProjectType } from 'src/user/project/project.service';
-import { ProjectPostData } from 'src/user/project/project.model';
 
 @Controller('users')
 export class UserController {
-  constructor(
-    private userService: UserService,
-    private projectService: ProjectService,
-  ) {}
+  constructor(private userService: UserService) {}
 
   @Get()
   getAll(): UserType[] {
@@ -31,10 +19,5 @@ export class UserController {
     }
 
     return user;
-  }
-
-  @Post()
-  createProject(@Body() project: ProjectPostData): ProjectType {
-    return this.projectService.addProject(project);
   }
 }

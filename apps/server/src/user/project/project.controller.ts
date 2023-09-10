@@ -1,13 +1,13 @@
-import { Get, Controller } from '@nestjs/common';
+import { Controller, Post, Body } from '@nestjs/common';
 import { ProjectService, ProjectType } from './project.service';
+import { ProjectPostData } from './project.model';
 
 @Controller('projects')
 export class ProjectController {
   constructor(private projectService: ProjectService) {}
 
-  @Get()
-  getAll(): ProjectType[] {
-    // TODO
-    return [];
+  @Post()
+  createProject(@Body() project: ProjectPostData): ProjectType {
+    return this.projectService.addProject(project);
   }
 }
