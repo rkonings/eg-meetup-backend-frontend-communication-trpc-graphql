@@ -1,4 +1,11 @@
-import { Body, Controller, Get, Post } from '@nestjs/common';
+import {
+  Body,
+  Controller,
+  Get,
+  NotFoundException,
+  Param,
+  Post,
+} from '@nestjs/common';
 import { UserService, UserType } from './user.service';
 import { ProjectService, ProjectType } from 'src/user/project/project.service';
 import { ProjectPostData } from 'src/user/project/project.model';
@@ -13,6 +20,17 @@ export class UserController {
   @Get()
   getAll(): UserType[] {
     return this.userService.getAll();
+  }
+
+  @Get(':id')
+  getById(@Param('id') id: string): UserType | undefined {
+    const user = this.userService.getById(parseInt(id));
+
+    if (!user) {
+      throw new NotFoundException();
+    }
+
+    return user;
   }
 
   @Post()

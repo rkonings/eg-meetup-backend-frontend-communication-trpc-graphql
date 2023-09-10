@@ -11,20 +11,26 @@ const UserSchema = z.object({
 export type UserType = z.infer<typeof UserSchema>;
 type UserCollection = Map<UserType['id'], UserType>;
 
-export const userCollection: UserCollection = new Map();
-userCollection.set(0, {
-  firstName: 'Lourens',
-  lastName: 'Kaufmann',
-  id: 0,
-  projects: [0],
-});
-
-userCollection.set(1, {
-  firstName: 'Niels',
-  lastName: 'de Bruin',
-  id: 1,
-  projects: [0],
-});
+export const userCollection: UserCollection = new Map([
+  [
+    0,
+    {
+      firstName: 'Lourens',
+      lastName: 'Kaufmann',
+      id: 0,
+      projects: [0],
+    },
+  ],
+  [
+    1,
+    {
+      firstName: 'Niels',
+      lastName: 'de Bruin',
+      id: 1,
+      projects: [0],
+    },
+  ],
+]);
 
 @Injectable()
 export class UserService {
